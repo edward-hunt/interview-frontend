@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 import TaskCard from './components/TaskCard';
 import TaskForm from './components/TaskForm';
+import TaskList from './components/TaskList';
 import { getTasks, createTask } from './services/api';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
+  const [filter, setFilter] = useState('all');
+  
   const fetchTasks = async () => {
     try {
       setLoading(true);
@@ -27,6 +25,14 @@ function App() {
     }
   };
 
+
+  // INTERVIEW ISSUE: This useEffect has a dependency issue
+  // It will cause infinite re-renders when fetchTasks is called
+  useEffect(() => {
+    fetchTasks();
+  }, []); // BUG: fetchTasks is recreated every render, causing infinite loop
+
+
   const handleCreateTask = async (taskData) => {
     try {
       const response = await createTask(taskData);
@@ -36,6 +42,10 @@ function App() {
       console.error('Error creating task:', err);
       return false;
     }
+  };
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
   };
 
   if (loading) {
@@ -69,14 +79,41 @@ function App() {
 
       <TaskForm onSubmit={handleCreateTask} />
 
-      <div className="task-grid">
-        {tasks.map(task => (
-          <TaskCard 
-            key={task._id} 
-            task={task} 
-            onUpdate={fetchTasks}
-          />
-        ))}
+      <div className="filter-buttons" style={{ marginBottom: '1rem' }}>
+        <button 
+          className={`btn ${filter === 'all' ? 'btn-active' : ''}`}
+          onClick={() => handleFilterChange('all')}
+        >
+          All Tasks
+        </button>
+        <button 
+          className={`btn ${filter === 'pending' ? 'btn-active' : ''}`}
+          onClick={() => handleFilterChange('pending')}
+        >
+          Pending
+        </button>
+        <button 
+          className={`btn ${filter === 'completed' ? 'btn-active' : ''}`}
+          onClick={() => handleFilterChange('completed')}
+        >
+          Completed
+        </button>
+      </div>
+
+      {/* INTERVIEW TASK 2: Replace this with TaskList component */}
+      {/* The TaskList component should transform and render tasks based on filter */}
+      <div className="placeholder-message" style={{
+        padding: '2rem',
+        textAlign: 'center',
+        backgroundColor: '#fff3cd',
+        border: '1px solid #ffeaa7',
+        borderRadius: '8px',
+        color: '#856404'
+      }}>
+        <h3>Task Display Not Implemented</h3>
+        <p>Replace this placeholder with the TaskList component in Task 2</p>
+        <p>Current filter: <strong>{filter}</strong></p>
+        <p>Total tasks loaded: <strong>{tasks.length}</strong></p>
       </div>
 
       {tasks.length === 0 && !loading && (

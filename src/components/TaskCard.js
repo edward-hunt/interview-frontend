@@ -1,15 +1,13 @@
 import React from 'react';
 
-// INTERVIEW TASK 2: Complete this TaskCard component
+// INTERVIEW TASK 3: Complete this TaskCard component
 // Current: Only shows the task title
-// Required: Display description, status, and due date
+// Required: Display description, status, and due date with good formatting
 // Bonus: Add a delete button with confirmation
 
 const TaskCard = ({ task, onUpdate }) => {
   const handleDelete = async () => {
     // TODO: Implement delete functionality
-    // HINT: Add confirmation dialog before deleting
-    // HINT: Use the deleteTask API function
     console.log('Delete functionality not implemented yet');
   };
 
@@ -17,9 +15,13 @@ const TaskCard = ({ task, onUpdate }) => {
   // Add a checkbox to toggle task status between 'pending' and 'completed'
   const handleStatusToggle = async () => {
     // TODO: Implement status toggle
-    // HINT: Use the updateTask API function
-    // HINT: Toggle between 'pending' and 'completed' status
     console.log('Status toggle functionality not implemented yet');
+  };
+
+  // Helper function to format date (you can improve this)
+  const formatDate = (dateString) => {
+    if (!dateString) return 'No due date';
+    return new Date(dateString).toLocaleDateString();
   };
 
   return (
@@ -29,8 +31,11 @@ const TaskCard = ({ task, onUpdate }) => {
       {/* TODO: Display the task description */}
       
       {/* TODO: Display the task status with appropriate styling */}
+      {/* HINT: Use CSS classes like .status-pending, .status-completed, etc. */}
       
-      {/* TODO: Display the due date (format it nicely) */}
+      {/* TODO: Display the due date using formatDate function */}
+      
+      {/* TODO: Display assigned user if available */}
       
       {/* TODO: Add delete button with confirmation */}
       
