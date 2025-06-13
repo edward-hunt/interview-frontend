@@ -25,12 +25,9 @@ function App() {
     }
   };
 
-
-  // INTERVIEW ISSUE: This useEffect has a dependency issue
-  // It will cause infinite re-renders when fetchTasks is called
   useEffect(() => {
     fetchTasks();
-  }, []); // BUG: fetchTasks is recreated every render, causing infinite loop
+  },[tasks]); 
 
 
   const handleCreateTask = async (taskData) => {
